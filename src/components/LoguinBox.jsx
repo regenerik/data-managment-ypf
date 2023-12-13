@@ -28,7 +28,7 @@
           setPass("");
         }
 
-        
+
       } catch (e) {
         console.error(e)
       }
@@ -62,7 +62,7 @@
               <input type="password" className="form-control" id="password" value={pass} autoComplete="contraseña" onChange={(e) => handlerSetPass(e.target.value)} />
             </div>    
             {
-              store.wrongPass && <p style={{ color: "white", fontSize: "18px" }}> Credenciales incorrecta/s </p>
+              store.wrongPass && <p style={{ color: "white", fontSize: "18px" }}> Credencial/es incorrecta/s </p>
             }
             <button type="submit" className="btn btn-light">Entrar</button>
           </form>
