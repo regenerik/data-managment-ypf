@@ -55,7 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             logout: () => {
                 const store = getStore()
-                setStore({...store,token:""})
+                setStore({...store,token:"",userName:""})
             }
 		}
 	};
