@@ -14,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
             login: async(info) => {
                 try{
-                    let response = await fetch("http://127.0.0.1:5000/token", {
+                    let response = await fetch("https://dm-ypf.onrender.com/token", {
                         method:'POST',
                         body: JSON.stringify(info),
                         headers:{
@@ -41,7 +41,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             button1: async () => {
                 try{
-                    let response = await fetch('url a comletar papi')
+                    let response = await fetch('https://dm-ypf.onrender.com/')
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
