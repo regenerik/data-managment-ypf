@@ -40,7 +40,7 @@ with app.app_context():
 
 @app.route('/')
 def hello():
-    return '¡Hola, mundo!'
+    return '¡Soy el servidor de Nahu y estoy funcionando a la perfección. Nada puede malir sal!'
 # ---------------------------EJEMPLO RUTA DE REGISTRO---------------------------
 
 @app.route('/users', methods=['POST'])
@@ -54,19 +54,20 @@ def create_user():
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            return jsonify({'error': 'Email already exists.'}), 409
+            return jsonify({'error': 'Email already exists.','ok':False}), 409
 
         password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+        
         new_user = User(email=email, password=password_hash)
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify({'message': 'User created successfully.'}), 201
+        return jsonify({'message': 'User created successfully.','ok':True}), 201
 
     except Exception as e:
-        return jsonify({'error': 'Error in user creation: ' + str(e)}), 500
+        return jsonify({'error': 'Error in user creation: ' + str(e),'ok':False}), 500
 
-# ---------------------------EJEMPLO RUTA GENERADORA DE TOKEN---------------------------
+# ---------------------------EJEMPLO RUTA GENERADORA DE TOKEN-Login---------------------------
 
 @app.route('/token', methods=['POST'])
 def get_token():
@@ -111,12 +112,12 @@ def show_users():
                 'email': user.email
             }
             user_list.append(user_dict)
+            
         return jsonify(user_list)
     else:
         return {"Error": "Token inválido o no proporcionado"}, 401
 
 # ------------------------------------------------------------------------------------------------                     
-
 
 
 #al final ( detecta que encendimos el servidor desde terminal y nos da detalles de los errores )

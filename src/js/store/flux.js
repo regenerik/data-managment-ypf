@@ -29,11 +29,38 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                     const store = getStore()
                     setStore({...store, userName: data.name, token: data.access_token})
+                    localStorage.setItem('token', data.token);
+
 
                 }catch(e){
                     console.error(e)
                 }
                 
+            },
+            register: async (info) => {
+                try{
+                    let token =  localStorage.getItem('token')
+                    let response = await fetch('https://dm-ypf.onrender.com/', {
+                        method: "POST" ,
+                        body:JSON.stringify({user: info}),
+                        headers: {
+                            'Content-type':'application/json',
+                            'Autorizathion':  `Bearer ${token}`
+                        }
+                    })
+
+                    let data = await response.json();
+
+                    if(!data.ok){
+                        alert("no se pudo registrar")
+                        setStore({...getStore(),registerOk:false})
+                    }
+
+                    setStore({...getStore(), registerOk:true})
+
+                }catch(e){
+                    console.log(`Error al registrar el usuario ${e}`)
+                }
             },
             wrongPass: (booleano) => {
                 const store = getStore()
@@ -56,6 +83,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             logout: () => {
                 const store = getStore()
                 setStore({...store,token:"",userName:""})
+                localStorage.setItem('token', "");
             }
 		}
 	};
