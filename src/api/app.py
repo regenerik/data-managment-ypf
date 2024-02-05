@@ -55,14 +55,10 @@ def handle_preflight():
 # ---------------------------EJEMPLO RUTA DE REGISTRO/ SOLO PARA USUARIOS----------------------
 
 @app.route('/users', methods=['POST'])
-@jwt_required()
 def create_user():
     try:
-        current_user_id = get_jwt_identity()
-        if not current_user_id:
-            return jsonify({'create_error':'its necessary token to create a new user'}), 401
 
-        name = request.json.get('name')
+        name = request.json.get('nombre')
         email = request.json.get('email')
         password = request.json.get('password')
 
@@ -79,7 +75,7 @@ def create_user():
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify({'message': 'User '+ name +' created successfully','ok':True}), 201
+        return jsonify({'message': 'User created successfully','ok':True}), 201
 
     except Exception as e:
         return jsonify({'error': 'Error in user creation: ' + str(e),'ok':False}), 500

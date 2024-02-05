@@ -14,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
             login: async(info) => {
                 try{
-                    let response = await fetch("https://dm-ypf.onrender.com/token", {
+                    let response = await fetch("http://127.0.0.1:5000/token", {
                         method:'POST',
                         body: JSON.stringify(info),
                         headers:{
@@ -39,13 +39,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             register: async (info) => {
                 try{
-                    let token =  localStorage.getItem('token')
-                    let response = await fetch('https://dm-ypf.onrender.com/user', {
+                    //let token =  localStorage.getItem('token') // http://127.0.0.1:5000 https://dm-ypf.onrender.com/user
+                    let response = await fetch('http://127.0.0.1:5000/users', {
                         method: "POST" ,
-                        body:JSON.stringify({user: info}),
+                        body:JSON.stringify(info),
                         headers: {
-                            'Content-type':'application/json',
-                            'Autorizathion':  `Bearer ${token}`
+                            'Content-type':'application/json'
                         }
                     })
 
@@ -54,10 +53,12 @@ const getState = ({ getStore, getActions, setStore }) => {
                     if(!data.ok){
                         alert("no se pudo registrar")
                         setStore({...getStore(),registerOk:false})
+                    }else{
+                        alert("registro exitoso")
+                        setStore({...getStore(), registerOk:true})
                     }
 
-                    setStore({...getStore(), registerOk:true})
-                    alert("registro exitoso")
+
                 }catch(e){
                     console.log(`Error al registrar el usuario ${e}`)
                 }
