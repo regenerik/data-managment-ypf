@@ -7,6 +7,7 @@ import Lgout from './views/Lgout.jsx'
 import NotFound from './views/NotFound.jsx'
 import Plus from './views/Plus.jsx'
 import Contact from './views/Contact.jsx'
+import Admin from './views/Admin.jsx'
 
 const Layout = () => {
   const basename = process.env.BASENAME || "";
@@ -19,6 +20,7 @@ const Layout = () => {
             <Route exact path="/logout" element={<Lgout/>}/>
             <Route exact path="/plus" element={<Plus/>}/>
             <Route exact path="/contact" element={<Contact/>}/>
+            <Route exact path="/admin" element={<Admin/>}/>
             <Route exact path="/*" element={<NotFound/>}/>
         </Routes>
     </BrowserRouter>

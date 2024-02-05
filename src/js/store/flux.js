@@ -40,7 +40,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             register: async (info) => {
                 try{
                     let token =  localStorage.getItem('token')
-                    let response = await fetch('https://dm-ypf.onrender.com/', {
+                    let response = await fetch('https://dm-ypf.onrender.com/user', {
                         method: "POST" ,
                         body:JSON.stringify({user: info}),
                         headers: {
@@ -57,7 +57,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
 
                     setStore({...getStore(), registerOk:true})
-
+                    alert("registro exitoso")
                 }catch(e){
                     console.log(`Error al registrar el usuario ${e}`)
                 }

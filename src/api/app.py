@@ -41,16 +41,33 @@ with app.app_context():
 @app.route('/')
 def hello():
     return '¡Soy el servidor de Nahu y estoy funcionando a la perfección. Nada puede malir sal!'
-# ---------------------------EJEMPLO RUTA DE REGISTRO---------------------------
+
+# ---------------------------Ruta para manejar las solicitudes preflight OPTIONS--------------
+@app.route('/user', methods=['OPTIONS'])
+def handle_preflight():
+    # Agrega los encabezados CORS necesarios
+    response = jsonify({'message': 'Preflight request received'})
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
+# ---------------------------EJEMPLO RUTA DE REGISTRO/ SOLO PARA USUARIOS----------------------
 
 @app.route('/users', methods=['POST'])
+@jwt_required()
 def create_user():
     try:
+        current_user_id = get_jwt_identity()
+        if not current_user_id:
+            return jsonify({'create_error':'its necessary token to create a new user'}), 401
+
+        name = request.json.get('name')
         email = request.json.get('email')
         password = request.json.get('password')
 
-        if not email or not password:
-            return jsonify({'error': 'Email and password are required.'}), 400
+        if not name or not email or not password:
+            return jsonify({'error': 'Name, e-mail and password are required.'}), 400
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
@@ -58,11 +75,11 @@ def create_user():
 
         password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
         
-        new_user = User(email=email, password=password_hash)
+        new_user = User(name=name, email=email, password=password_hash)
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify({'message': 'User created successfully.','ok':True}), 201
+        return jsonify({'message': 'User '+ name +' created successfully','ok':True}), 201
 
     except Exception as e:
         return jsonify({'error': 'Error in user creation: ' + str(e),'ok':False}), 500
