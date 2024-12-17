@@ -16,6 +16,7 @@ const Contact = () => {
         <div className='container-fluid' style={backgroundStyle}>
             <div className='row pt-3'>
                 <Navbar />
+                contact
             </div>
         </div>
 
