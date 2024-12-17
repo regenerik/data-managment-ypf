@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom'
 const Admin = () => {
 
     const { actions } = useContext(Context)
+
+
     const token = localStorage.getItem('token');
     const backgroundStyle = {
         backgrouncolor: 'white',
@@ -68,6 +70,7 @@ const Admin = () => {
                                     <button className="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Editar mis credenciales</button>
                                 </div>
                             </nav>
+                            <div>Hola</div>
                             <div className="tab-content" id="nav-tabContent">
                                 <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabIndex="0">
 
